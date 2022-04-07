@@ -3,6 +3,7 @@ import { getSession, signIn, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { FiCheckCircle, FiGithub } from "react-icons/fi";
+import Logo from "../components/Logo";
 
 export const getServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
@@ -35,9 +36,7 @@ const IndexPage = () => {
       </Head>
       <main className="w-2/3 mx-auto py-8">
         <nav>
-          <div className="text-xl font-black">
-            <span className="text-primary">dev</span>mentor
-          </div>
+          <Logo />
         </nav>
         {/* spacer */}
         <div className="p-8" />
