@@ -1,8 +1,33 @@
+import axios from "axios";
+import { getSession, signIn, useSession } from "next-auth/react";
 import Head from "next/head";
 import Image from "next/image";
 import { FiCheckCircle, FiGithub } from "react-icons/fi";
 
+export const getServerSideProps = async ({ req }) => {
+  const session = await getSession({ req });
+
+  console.log("Session: ", session);
+
+  if (session) {
+    return {
+      redirect: {
+        destination: "/dashboard",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {},
+  };
+};
+
 const IndexPage = () => {
+  const onClick = () => {
+    signIn();
+  };
+
   return (
     <>
       <Head>
@@ -30,24 +55,23 @@ const IndexPage = () => {
                 <Image src="/line.svg" layout="fill" alt="underline" />
               </div>
             </div>
-            <p className="mt-12">
-              <ul className="text-2xl leading-relaxed">
-                <li className="flex items-center gap-3">
-                  <FiCheckCircle className="text-primary" /> Weekly new practice
-                  projects
-                </li>
-                <li className="flex items-center gap-3">
-                  <FiCheckCircle className="text-primary" />
-                  Get score with automated testing
-                </li>
-                <li className="flex items-center gap-3">
-                  <FiCheckCircle className="text-primary" />
-                  Build your portfolio
-                </li>
-              </ul>
-            </p>
+            <ul className="mt-12 text-2xl leading-relaxed">
+              <li className="flex items-center gap-3">
+                <FiCheckCircle className="text-primary" /> Weekly new practice
+                projects
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheckCircle className="text-primary" />
+                Get score with automated testing
+              </li>
+              <li className="flex items-center gap-3">
+                <FiCheckCircle className="text-primary" />
+                Build your portfolio
+              </li>
+            </ul>
+
             <div className="p-8" />
-            <button className="btn">
+            <button className="btn" onClick={onClick}>
               <FiGithub /> Login with Github
             </button>
           </div>
