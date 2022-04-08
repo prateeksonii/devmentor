@@ -8,8 +8,6 @@ import Logo from "../components/Logo";
 export const getServerSideProps = async ({ req }) => {
   const session = await getSession({ req });
 
-  console.log("Session: ", session);
-
   if (session) {
     return {
       redirect: {

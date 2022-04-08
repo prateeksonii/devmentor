@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import GithubProvider from "next-auth/providers/github";
-import { prisma } from "../../../services/db";
+import { api } from "../../../services/api";
 
 export default NextAuth({
   // Configure one or more authentication providers
@@ -16,14 +16,7 @@ export default NextAuth({
       // Persist the OAuth access_token to the token right after signin
       if (account) {
         token.accessToken = account.access_token;
-        await prisma.user.upsert({
-          create: {
-            email: user.email,
-            name: user.name,
-          },
-          update: {},
-          where: { email: user.email },
-        });
+        await api.post("/api/v1/users", { email: user.email, name: user.name });
       }
       return token;
     },
